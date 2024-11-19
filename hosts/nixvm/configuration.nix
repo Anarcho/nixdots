@@ -1,5 +1,4 @@
 { config, pkgs, lib, inputs, ... }:
-
 {
   imports = [
     ./hardware-configuration.nix
@@ -65,9 +64,6 @@
       ];
     };
   };
-
-  # Enable Hyper-V GPU support
-  drivers.nvidia-module.enable = true;
 
   # Network configuration
   networking = {
