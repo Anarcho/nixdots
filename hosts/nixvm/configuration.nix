@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/generic-gpu.nix
+    ../../modules/nvidia-module.nix
   ];
 
   nixpkgs.config = {
@@ -15,10 +15,6 @@
     settings = {
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "root" "anarcho" ];
-    auto-optimise-store = true;
-    build-users-group = "nixbld";
-    max-jobs = "auto";
-    sandbox = true;
   };
     
 
@@ -71,7 +67,7 @@
   };
 
   # Enable Hyper-V GPU support
-  drivers.genericGpu.enable = true;
+  drivers.nvidia-module.enable = true;
 
   # Network configuration
   networking = {
@@ -179,14 +175,12 @@
   # Environment configuration
   environment = {    # Changed to a proper attribute set
     sessionVariables = {
-      # Remove any GPU-specific variables
       LIBGL_ALWAYS_SOFTWARE = "1";
       WLR_RENDERER = "pixman";
       WLR_NO_HARDWARE_CURSORS = "1";
       XDG_SESSION_TYPE = "wayland";
       XDG_CURRENT_DESKTOP = "Hyprland";
       XDG_SESSION_DESKTOP = "Hyprland";
-      # Add these variables
       WLR_BACKENDS = "headless,libinput";
       QT_QPA_PLATFORM = "wayland";
       MOZ_ENABLE_WAYLAND = "1";
