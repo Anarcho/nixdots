@@ -1,1 +1,7 @@
-{ config, ... }: { imports = [ ./home.nix ../common ]; }
+{ config, inputs, ... }:
+{
+  imports = [
+    ./home.nix
+    ./modules/nixvim
+  ];
+}

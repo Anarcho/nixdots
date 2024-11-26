@@ -5,8 +5,8 @@ set -e # Exit on error
 
 # Replace these with your actual paths and credentials
 NIXOS_HOST="nix"
-LOCAL_PATH="/home/aaronk/repos/nixdots" # Your actual WSL path
-REMOTE_PATH="/home/anarcho/nixcfg"      # Path on NixOS VM
+LOCAL_PATH="/home/aaronk/repo/nixdots" # Your actual WSL path
+REMOTE_PATH="/home/anarcho/nixcfg"     # Path on NixOS VM
 
 # Check if local directory exists
 if [ ! -d "$LOCAL_PATH" ]; then

@@ -6,14 +6,19 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
   };
 
   outputs = {
     self,
-    home-manager,
     nixpkgs,
+    home-manager,
+    nixvim,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -30,15 +35,19 @@
       #forAllSystems (system: ./pkgs import nixpkgs.legacyPackages.${system});
     nixosConfigurations = {
        vm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
         specialArgs = {inherit inputs outputs;};
-        modules = [./hosts/vm/default.nix];
-      };
-    };
-    homeConfigurations = {
-      "anarcho@vm" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        extraSpecialArgs = {inherit inputs outputs;};
-        modules = [./home/anarcho/anarcho.nix];
+        modules = [
+            ./hosts/vm/default.nix
+            home-manager.nixosModules.home-manager {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.anarcho = import ./home/anarcho/anarcho.nix;
+                extraSpecialArgs = { inherit inputs outputs;};
+              };
+            }
+       ];
       };
     };
   };

@@ -1,10 +1,15 @@
+{ inputs, ... }:
 {
-  config = {
-    globalOpts = {
-      number = true;
-      relativenumber = true;
-      background = "dark";
-    };
+  imports = [
+    inputs.nixvim.homeManagerModules.nixvim
+    ./options.nix
+    ./colorschemes.nix
+  ];
+
+  programs.nixvim = {
+    enable = true;
+
     globals.mapleader = " ";
+
   };
 }

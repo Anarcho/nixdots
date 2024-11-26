@@ -32,6 +32,7 @@
     git
     vim
     wget
+    home-manager
   ];
 
   services.openssh = {
