@@ -1,12 +1,16 @@
-{ inputs, lib, config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+  ];
 
   nixpkgs = {
     config = {
       allowUnfree = true;
     };
   };
+
+  networking.hostName = "vm";
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -21,8 +25,7 @@
     extraGroups = [
       "wheel"
     ];
-    packages = with pkgs; [
-    ];
+    packages = with pkgs; [ ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -39,9 +42,20 @@
     };
   };
 
-  programs.hyprland = {
+  programs.sway = {
     enable = true;
     xwayland.enable = true;
+  };
+
+  nix = {
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [
+        "root"
+        "anarcho"
+        "aaronk"
+      ];
+    };
   };
 
   system.stateVersion = "24.05";
